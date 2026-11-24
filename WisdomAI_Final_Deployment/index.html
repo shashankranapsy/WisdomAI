@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WisdomAI — Ancient Wisdom for Modern Life</title>
+
+<style>
+:root {
+  --bg:#0b1020;
+  --panel:#121a2d;
+  --panel2:#18233a;
+  --gold:#e8bd70;
+  --text:#f4f1e9;
+  --muted:#a9b3c7;
+  --border:#293650;
+  --accent:#d7a84e;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+}
+button,input {font:inherit}
+button {cursor:pointer}
+.nav {
+  height:72px;
+  padding:0 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  background:#0d1425;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.logo {
+  color:var(--gold);
+  font-size:23px;
+  font-weight:800;
+  letter-spacing:.5px;
+  cursor:pointer;
+}
+.navlinks {display:flex;gap:24px}
+.navlinks button {
+  color:var(--muted);
+  background:none;
+  border:0;
+}
+.navlinks button:hover {color:var(--gold)}
+.container {width:min(1050px,90%);margin:auto}
+.page {display:none;min-height:80vh}
+.page.active {display:block}
+.hero {
+  text-align:center;
+  padding:90px 15px 45px;
+}
+.eyebrow {
+  color:var(--gold);
+  letter-spacing:3px;
+  font-size:12px;
+  font-weight:700;
+}
+h1 {
+  font-size:clamp(36px,6vw,58px);
+  line-height:1.12;
+  margin:20px 0;
+}
+.hero p {
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.7;
+  max-width:650px;
+  margin:0 auto;
+}
+.searchbox {
+  max-width:760px;
+  margin:35px auto 15px;
+  padding:9px;
+  display:flex;
+  gap:10px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+}
+.searchbox input {
+  flex:1;
+  min-width:0;
+  padding:15px;
+  color:white;
+  background:transparent;
+  border:0;
+  outline:0;
+  font-size:16px;
+}
+.primary {
+  border:0;
+  border-radius:10px;
+  padding:14px 22px;
+  background:var(--accent);
+  color:#17120a;
+  font-weight:800;
+}
+.primary:hover {background:#f0cc82}
+.secondary {
+  background:var(--panel2);
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:9px;
+  padding:11px 16px;
+}
+.secondary:hover {border-color:var(--gold)}
+.examples {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:20px auto;
+}
+.example {
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--muted);
+  padding:9px 14px;
+  border-radius:30px;
+  cursor:pointer;
+}
+.example:hover {color:var(--gold);border-color:var(--gold)}
+.section-title {font-size:26px;margin:35px 0 8px}
+.muted {color:var(--muted);line-height:1.7}
+.results-list {display:grid;gap:15px;margin:25px 0 60px}
+.verse-card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:23px;
+  transition:.2s;
+}
+.verse-card:hover {
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
+.card-top {
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+}
+.ref {color:var(--gold);font-weight:800;font-size:18px}
+.score {font-size:12px;color:var(--muted)}
+.preview {
+  color:#e2e6ef;
+  line-height:1.7;
+  margin:15px 0;
+}
+.card-actions {display:flex;gap:10px;flex-wrap:wrap}
+#details {padding:35px 0 70px}
+.detail-panel {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px;
+  margin:20px 0;
+}
+.detail-heading {color:var(--gold);font-size:13px;letter-spacing:2px}
+.sanskrit {
+  font-family:"Noto Serif Devanagari","Nirmala UI",serif;
+  font-size:27px;
+  line-height:2;
+  text-align:center;
+  white-space:pre-wrap;
+  margin:25px 0;
+  color:#f7dfad;
+}
+.translit {
+  text-align:center;
+  color:var(--muted);
+  line-height:1.9;
+  font-style:italic;
+  margin-bottom:25px;
+}
+.translation {
+  font-size:17px;
+  line-height:1.9;
+  white-space:pre-wrap;
+}
+.language-tabs {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin:18px 0;
+}
+.language-tabs button {
+  background:var(--panel2);
+  color:var(--muted);
+  border:1px solid var(--border);
+  border-radius:30px;
+  padding:9px 16px;
+}
+.language-tabs button.selected {
+  background:#49391e;
+  border-color:var(--gold);
+  color:#ffe0a0;
+}
+.reflection {
+  background:#171f32;
+  border-left:3px solid var(--gold);
+  border-radius:8px;
+  padding:22px;
+  line-height:1.8;
+  color:#e6e9f0;
+}
+.reflection h3 {color:var(--gold);margin-top:0}
+.footer {
+  text-align:center;
+  color:var(--muted);
+  border-top:1px solid var(--border);
+  padding:30px 15px;
+  font-size:13px;
+}
+.loader {color:var(--gold);padding:25px;text-align:center}
+.error {color:#ff9999;padding:15px}
+@media(max-width:650px) {
+  .nav {padding:0 5%}
+  .navlinks {gap:8px}
+  .navlinks button {font-size:12px}
+  .searchbox {flex-direction:column}
+  .searchbox .primary {width:100%}
+  .detail-panel {padding:18px}
+  .sanskrit {font-size:22px}
+  .card-top {align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+<header class="nav">
+  <div class="logo" onclick="goHome()">✦ WisdomAI</div>
+  <div class="navlinks">
+    <button onclick="goHome()">Home</button>
+    <button onclick="showAbout()">About</button>
+  </div>
+</header>
+
+<main class="container">
+
+<section id="homePage" class="page active">
+  <div class="hero">
+    <div class="eyebrow">ANCIENT WISDOM · MODERN LIFE</div>
+    <h1>Find clarity in<br><span style="color:var(--gold)">timeless wisdom.</span></h1>
+    <p>
+      Describe what's happening in your life. Explore relevant teachings
+      from the Bhagavad Gita, understand their meaning, and reflect on
+      how they may relate to your situation.
+    </p>
+
+    <div class="searchbox">
+      <input id="question" placeholder="Example: I had a bad day and feel disappointed..."
+             onkeydown="if(event.key==='Enter') searchVerses()">
+      <button class="primary" onclick="searchVerses()">Find Shlokas →</button>
+    </div>
+
+    <div class="muted">Try an example:</div>
+    <div class="examples">
+      <button class="example" onclick="useExample('I had a bad day and feel disappointed')">I had a bad day</button>
+      <button class="example" onclick="useExample('I work hard but cannot control the results')">I worry about results</button>
+      <button class="example" onclick="useExample('I feel angry and find it difficult to stay calm')">I feel angry</button>
+      <button class="example" onclick="useExample('I am confused and do not know what decision to make')">I feel confused</button>
+    </div>
+  </div>
+</section>
+
+<section id="resultsPage" class="page">
+  <button class="secondary" onclick="goHome()">← Back to Home</button>
+  <h2 class="section-title">Search Results</h2>
+  <p class="muted" id="queryLabel"></p>
+  <div id="resultsList" class="results-list"></div>
+</section>
+
+<section id="detailPage" class="page">
+  <button class="secondary" onclick="backToResults()">← Back to Results</button>
+  <div id="details"></div>
+</section>
+
+<section id="aboutPage" class="page">
+  <h2 class="section-title">About WisdomAI</h2>
+  <div class="detail-panel">
+    <p class="muted">
+      WisdomAI is an educational scripture exploration project.
+      It uses multilingual semantic search to find Bhagavad Gita verses
+      that may relate to a situation described by a user.
+    </p>
+    <p class="muted">
+      The original verse, transliteration, translations and available
+      explanations are displayed separately from the application's
+      reflection on a modern situation.
+    </p>
+    <p class="muted">
+      Interpretations may differ across traditions and commentaries.
+      WisdomAI is not a definitive religious authority.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  WisdomAI · Exploring timeless teachings with care and context
+</footer>
+
+<script>
+let currentQuestion = "";
+let lastResults = [];
+let currentVerse = null;
+let currentLanguage = "English";
+
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function goHome() { showPage("homePage"); }
+function showAbout() { showPage("aboutPage"); }
+function backToResults() { showPage("resultsPage"); }
+
+function useExample(text) {
+  document.getElementById("question").value = text;
+  searchVerses();
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[c]));
+}
+
+async function searchVerses() {
+  const q = document.getElementById("question").value.trim();
+  if (!q) {
+    alert("Please describe your situation first.");
+    return;
+  }
+
+  currentQuestion = q;
+  showPage("resultsPage");
+  document.getElementById("queryLabel").textContent = "Your situation: " + q;
+  document.getElementById("resultsList").innerHTML =
+    '<div class="loader">Finding relevant verses...</div>';
+
+  try {
+    const response = await fetch("/api/search?q=" + encodeURIComponent(q));
+    const data = await response.json();
+
+    if (data.error) throw new Error(data.error);
+
+    lastResults = data.results || [];
+    renderResults(lastResults);
+
+  } catch (err) {
+    document.getElementById("resultsList").innerHTML =
+      '<div class="error">Could not load results: ' + escapeHTML(err.message) + '</div>';
+  }
+}
+
+function renderResults(results) {
+  const box = document.getElementById("resultsList");
+
+  if (!results.length) {
+    box.innerHTML = '<p class="muted">No verses were found. Try describing your situation differently.</p>';
+    return;
+  }
+
+  box.innerHTML = results.map((v, i) => `
+    <article class="verse-card">
+      <div class="card-top">
+        <div class="ref">${i+1}. ${escapeHTML(v.reference)}</div>
+        <div class="score">Search ranking score: ${Number(v.score).toFixed(4)}</div>
+      </div>
+      <div class="preview">${escapeHTML(v.english || "Translation not available.")}</div>
+      <div class="card-actions">
+        <button class="primary" onclick="openVerse('${encodeURIComponent(v.reference)}')">
+          Read Full Shloka →
+        </button>
+      </div>
+    </article>
+  `).join("");
+}
+
+async function openVerse(encodedReference) {
+  const reference = decodeURIComponent(encodedReference);
+  showPage("detailPage");
+  document.getElementById("details").innerHTML =
+    '<div class="loader">Loading original verse and explanation...</div>';
+
+  try {
+    const response = await fetch("/api/verse?ref=" + encodeURIComponent(reference));
+    const verse = await response.json();
+
+    if (verse.error) throw new Error(verse.error);
+
+    currentVerse = verse;
+    renderVerse();
+
+  } catch (err) {
+    document.getElementById("details").innerHTML =
+      '<div class="error">' + escapeHTML(err.message) + '</div>';
+  }
+}
+
+
+function connectionFor(reference, question) {
+    const ref = String(reference).replace(/\s/g, "");
+
+    const explanations = {
+      "BG2-14":
+        "BG 2.14 discusses temporary experiences of pleasure and pain. A difficult day can feel overwhelming, but this teaching invites you to remember that experiences change. It does not mean ignoring your feelings.",
+      "BG2-47":
+        "BG 2.47 teaches the distinction between your actions and their results. Reflect on what was within your control today, what you learned, and what you can do constructively next.",
+      "BG6-5":
+        "BG 6.5 discusses the role of the mind in personal growth. Reflect on how your thoughts influence your next decision and how you can respond to yourself with patience.",
+      "BG2-63":
+        "BG 2.63 describes how anger can affect judgement. If anger is involved, consider pausing before responding.",
+      "BG6-26":
+        "BG 6.26 discusses gently bringing a wandering mind back. If you are overthinking, consider returning your attention to one task at a time."
+    };
+
+    return explanations[ref] ||
+      "This verse was retrieved as a possible match, but a verified connection to your situation is not yet available. Read its actual teaching and commentary before drawing conclusions.";
+}
+
+function renderVerse() {
+  const v = currentVerse;
+  const box = document.getElementById("details");
+
+  const languages = ["English","Hindi","Hinglish","Sanskrit"];
+  const tabs = languages.map(lang =>
+    `<button class="${currentLanguage===lang?'selected':''}"
+      onclick="setLanguage('${lang}')">${lang}</button>`
+  ).join("");
+
+  let translation = "";
+  if (currentLanguage === "Hindi") {
+    translation = v.hindi || "Hindi translation is not available in this record.";
+  } else if (currentLanguage === "Sanskrit") {
+    translation = v.sanskrit || "Sanskrit text is not available.";
+  } else if (currentLanguage === "Hinglish") {
+    translation = (v.hindi || "") + "\n\n" + (v.english || "");
+  } else {
+    translation = v.english || "English translation is not available.";
+  }
+
+  let explanation = currentLanguage === "Hindi"
+    ? (v.hindi_explanation || "")
+    : (v.english_explanation || "");
+
+  if (currentLanguage === "Hinglish") {
+    explanation = v.hindi_explanation || v.english_explanation || "";
+  }
+
+  if (!explanation.trim()) {
+    explanation = "A separate detailed commentary is not available in the current database for this verse. The translation above is shown as the primary meaning source.";
+  }
+
+  box.innerHTML = `
+    <div class="detail-panel">
+      <div class="detail-heading">SELECTED SCRIPTURE</div>
+      <h1 style="font-size:35px;color:var(--gold)">${escapeHTML(v.reference)}</h1>
+
+      <div class="detail-heading">ORIGINAL SANSKRIT SHLOKA</div>
+      <div class="sanskrit">${escapeHTML(v.sanskrit || "Sanskrit text unavailable")}</div>
+
+      <div class="detail-heading">TRANSLITERATION</div>
+      <div class="translit">${escapeHTML(v.transliteration || "Transliteration unavailable")}</div>
+
+      <div class="detail-heading">CHOOSE YOUR LANGUAGE</div>
+      <div class="language-tabs">${tabs}</div>
+
+      <div class="detail-heading">VERSE MEANING</div>
+      <div class="translation">${escapeHTML(translation)}</div>
+    </div>
+
+    <div class="detail-panel">
+      <div class="detail-heading">SCRIPTURAL EXPLANATION</div>
+      <h2>Understanding this teaching</h2>
+      <div class="translation">${escapeHTML(explanation)}</div>
+    </div>
+
+    <div class="detail-panel">
+      <div class="detail-heading">YOUR SITUATION</div>
+      <h2>How might this verse relate to your experience?</h2>
+      <p class="muted">${escapeHTML(currentQuestion)}</p>
+
+      <div class="reflection">
+        <h3>Possible connection</h3>
+        ${connectionFor(v.reference, currentQuestion)}
+      </div>
+
+      <h3 style="color:var(--gold);margin-top:25px">A way to reflect on it</h3>
+      <p class="muted">
+        Consider what this teaching says about your actions, thoughts,
+        choices or perspective. Ask yourself which part of your present
+        situation you can respond to constructively.
+      </p>
+
+      <div class="reflection">
+        <h3>Think about this</h3>
+        What is one small, constructive step you can take after reflecting
+        on this verse?
+      </div>
+    </div>
+
+    <p class="muted" style="font-size:13px">
+      Educational interpretation only. This is not a definitive religious
+      ruling or a guarantee of an outcome. Interpretations can differ
+      across traditions and commentaries.
+    </p>
+  `;
+}
+
+function setLanguage(language) {
+  currentLanguage = language;
+  renderVerse();
+}
+</script>
+</body>
+</html>
